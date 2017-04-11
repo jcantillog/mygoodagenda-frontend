@@ -1,0 +1,7 @@
+{
+  "name": "MyFuckingAgenda Polymer-Frontend",
+  "short_name": "MyFuckingAgenda Polymer-Frontend",
+  "description": "Application that serves as an user interface for MyFuckingAgenda project. ",
+  "start_url": "/",
+  "display": "standalone"
+}
