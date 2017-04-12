@@ -1,0 +1,96 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<dom-module id="mfav-form">
+	<template>
+		<style>
+			paper-button{
+				background-color: var(--accent-color);
+	          	color: white;
+	          	margin-left: 0px;
+	          	margin-top: 1em;
+	          	float: right;
+			}
+			/*paper-card {
+				left: 3%;
+				width: 90%;
+				margin-top: 25px;
+				border-radius: 5px;
+			}*/
+		</style>
+		<!--<paper-card heading="" image="" elevation="1" animated-shadow="false">
+		  <div class="card-content">-->
+			<form is="iron-form">
+				<paper-input label="Nombre" id="name" required>
+					<iron-icon icon="account-box" prefix></iron-icon>
+					<paper-icon-button suffix onclick="clearInput('name')" icon="clear" alt="clear" title="clear">
+					</paper-icon-button>
+				</paper-input>
+				<paper-input label="Teléfono" id="telephone" char-counter maxlength="10" allowed-pattern="[0-9]">
+					<iron-icon icon="settings-cell" prefix></iron-icon>
+					<paper-icon-button suffix onclick="clearInput('telephone')" icon="clear" alt="clear" title="clear">
+					</paper-icon-button>
+				</paper-input>
+				<paper-input label="Dirección" id="address" required>
+					<iron-icon icon="account-balance" prefix></iron-icon>
+					<paper-icon-button suffix onclick="clearInput('address')" icon="clear" alt="clear" title="clear">
+					</paper-icon-button>
+				</paper-input>
+				<paper-input label="Correo" id="email" required type="email">
+					<iron-icon icon="mail" prefix></iron-icon>
+					<paper-icon-button suffix onclick="clearInput('email')" icon="clear" alt="clear" title="clear">
+					</paper-icon-button>
+				</paper-input>
+				<div class="card-actions">
+					<paper-button raised on-tap="addSnippet"> Agregar contacto </paper-button>
+				</div>
+			</form>
+		  <!--</div>
+		</paper-card>-->
+	</template>
+	<script>
+		Polymer({
+			is: "mfav-form",
+
+			properties: {
+        		collection: {
+          			type: Array,
+          			//value: function(){ return []; },
+          			notify: true
+        		}
+        		/*lol:{
+        			type: String,
+        			notify: true
+        		}*/
+      		},
+
+			addSnippet: function(){
+				/*this.lol = this.$.language.value
+				console.log("Desde el form:");
+				console.log(this.lol);*/
+
+				var codeObj = {
+					name: this.$.name.value,
+					telephone: this.$.telephone.value,
+					address: this.$.address.value,
+					email: this.$.email.value
+				};
+
+				this.push("collection", codeObj);
+				console.log("Desde el form:");
+				console.log(this.collection);
+			}
+		})
+
+		function clearInput(val) {
+			document.getElementById(val).value = '';
+	    }
+	</script>
+</dom-module>

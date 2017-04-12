@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="mfav-collection">
+	<template>
+		<style include="iron-flex iron-flex-alignment">
+			:host {
+        		display: block;
+      		}
+      		paper-card{
+      			border-radius: 10px;
+      			display: block;
+        		margin-top: 1em;
+      		}
+      		.iron-flex {
+				/*width: 50%;*/
+			}
+		</style>
+		<!--<div class="layout horizontal">-->
+		<template is="dom-repeat" items="{{collection}}" as="code">
+			<paper-card heading="{{code.name}}" elevation="3" animated-shadow="false" class="iron-flex">
+			  <div class="card-content">
+			  <paper-input label="Teléfono" value="{{code.telephone}}" disabled></paper-input>
+			  <paper-input label="Dirección" value="{{code.address}}" disabled></paper-input>
+			  <paper-input label="Correo" value="{{code.email}}" disabled></paper-input>
+			  	<!--<codesaver-code code="{{code.code}}" lang="{{code.lang}}">
+			  		
+			  	</codesaver-code>-->
+			  </div>
+			</paper-card>
+		</template>
+		<!--</div>-->
+	</template>
+	<script>
+		Polymer({
+			is: "mfav-collection",
+			properties:{
+				collection: Array
+			}
+		})
+	</script>
+</dom-module>
