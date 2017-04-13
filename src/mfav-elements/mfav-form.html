@@ -8,6 +8,11 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 
+<link rel="stylesheet" type="text/css" href="../mfav-js/alertifyJS/css/alertify.min.css">
+<link rel="stylesheet" type="text/css" href="../mfav-js/alertifyJS/css/themes/semantic.min.css">
+
+<script type="text/javascript" src="../mfav-js/alertifyJS/alertify.min.js"></script>
+
 <dom-module id="mfav-form">
 	<template>
 		<style>
@@ -27,29 +32,29 @@
 		</style>
 		<!--<paper-card heading="" image="" elevation="1" animated-shadow="false">
 		  <div class="card-content">-->
-			<form is="iron-form">
+			<form is="iron-form" id="form_contact">
 				<paper-input label="Nombre" id="name" required>
 					<iron-icon icon="account-box" prefix></iron-icon>
-					<paper-icon-button suffix onclick="clearInput('name')" icon="clear" alt="clear" title="clear">
+					<paper-icon-button id="_name" suffix on-click="fireInput" icon="clear" alt="clear" title="clear">
 					</paper-icon-button>
 				</paper-input>
-				<paper-input label="Teléfono" id="telephone" char-counter maxlength="10" allowed-pattern="[0-9]">
+				<paper-input label="Teléfono" id="telephone" required char-counter maxlength="10" allowed-pattern="[0-9]">
 					<iron-icon icon="settings-cell" prefix></iron-icon>
-					<paper-icon-button suffix onclick="clearInput('telephone')" icon="clear" alt="clear" title="clear">
+					<paper-icon-button id="_telephone" suffix on-click="fireInput" icon="clear" alt="clear" title="clear">
 					</paper-icon-button>
 				</paper-input>
 				<paper-input label="Dirección" id="address" required>
 					<iron-icon icon="account-balance" prefix></iron-icon>
-					<paper-icon-button suffix onclick="clearInput('address')" icon="clear" alt="clear" title="clear">
+					<paper-icon-button id="_address" suffix on-click="fireInput" icon="clear" alt="clear" title="clear">
 					</paper-icon-button>
 				</paper-input>
 				<paper-input label="Correo" id="email" required type="email">
 					<iron-icon icon="mail" prefix></iron-icon>
-					<paper-icon-button suffix onclick="clearInput('email')" icon="clear" alt="clear" title="clear">
+					<paper-icon-button id="_email" suffix on-click="fireInput" class="xd" icon="clear" alt="clear" title="clear">
 					</paper-icon-button>
 				</paper-input>
 				<div class="card-actions">
-					<paper-button raised on-tap="addSnippet"> Agregar contacto </paper-button>
+					<paper-button raised on-tap="addContact" id="add_contact"> Agregar contacto </paper-button>
 				</div>
 			</form>
 		  <!--</div>
@@ -62,35 +67,51 @@
 			properties: {
         		collection: {
           			type: Array,
-          			//value: function(){ return []; },
           			notify: true
         		}
-        		/*lol:{
-        			type: String,
-        			notify: true
-        		}*/
       		},
 
-			addSnippet: function(){
-				/*this.lol = this.$.language.value
-				console.log("Desde el form:");
-				console.log(this.lol);*/
+			addContact: function(){
+				if((this.$.name.value == '') || (this.$.telephone.value == '') || (this.$.address.value == '') || (this.$.email.value == '')){
+					//alertify.alert("Información","Debe completar todos los campos").set('label', 'Aceptar');
+				}else{
+					var codeObj = {
+						name: this.$.name.value,
+						telephone: this.$.telephone.value,
+						address: this.$.address.value,
+						email: this.$.email.value
+					};
 
-				var codeObj = {
-					name: this.$.name.value,
-					telephone: this.$.telephone.value,
-					address: this.$.address.value,
-					email: this.$.email.value
-				};
+					this.push("collection", codeObj);
+					alertify.success('Contacto agregado con éxito')
+					console.log("Desde el form:");
+					console.log(this.collection);
+				}
+			},
 
-				this.push("collection", codeObj);
-				console.log("Desde el form:");
-				console.log(this.collection);
-			}
+			fireInput: function(e){
+				//this.fire("hola")
+				switch(Polymer.dom(e).localTarget.id){
+					case "_name":
+						this.$.name.value = ''
+						break;
+					case "_telephone": 
+						this.$.telephone.value = ''
+						break;
+					case "_address": 
+						this.$.address.value = ''
+						break;
+					case "_email": 
+						this.$.email.value = ''
+						break;
+					default:
+						break;
+				}
+      		},
+
+      		ready: function(){
+        		this.$.add_contact.addEventListener("click", ()=>{this.$.form_contact.submit()})
+      		}
 		})
-
-		function clearInput(val) {
-			document.getElementById(val).value = '';
-	    }
 	</script>
 </dom-module>

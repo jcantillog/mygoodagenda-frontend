@@ -96,12 +96,18 @@
       		.pink .content {
                 background: linear-gradient(white, #f8bbd0);
       		}
-			.iron-flex {
+			.side_a {
 				width: 50%;
 				font-size: 2em;
 				letter-spacing: 0.1em;
 				font-family: 'Play', sans-serif;
 			}
+      .side_b {
+        width: 50%;
+        font-size: 2em;
+        letter-spacing: 0.1em;
+        font-family: 'Play', sans-serif;
+      }
 			.iron-flex a {
 				text-decoration: none;
 				color: white;
@@ -116,14 +122,35 @@
 				width: 100px;
 				height: 60px;
 			}
+
+      @media (max-width: 800px) and (min-width: 400px){
+        .side_a {
+          width: 70%;
+          font-size: 1.5em;
+        }
+        .side_b {
+          width: 30%;
+        }
+      }
+      @media (max-width:399px) {
+        .side_a {
+          width: 70%;
+          font-size: 1.2em;
+          letter-spacing: 0em;
+        }
+        .side_b {
+          width: 30%;
+        }
+
+      }
 		</style>
 		<paper-header-panel class="red">
 	      <div class="paper-header layout horizontal">
-	          <div class="iron-flex">
+	          <div class="iron-flex side_a">
 	            <a href="/index"><iron-icon icon="communication:import-contacts"></iron-icon>
 	            My Good Agenda</a>
 	          </div>
-	          <div class="iron-flex" style="text-align: right;">
+	          <div class="iron-flex side_b" style="text-align: right;">
 	            <a href="/index"><iron-image sizing="contain" id="example-sizing-contain" alt="MyFuckingAgenda logo" src="../mfav-images/mfa-logo.png"></iron-image></a>
 	          </div>
 	      </div>

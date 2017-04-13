@@ -2,8 +2,19 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+<link rel="stylesheet" type="text/css" href="../mfav-js/alertifyJS/css/alertify.min.css">
+<link rel="stylesheet" type="text/css" href="../mfav-js/alertifyJS/css/themes/semantic.min.css">
+
+<script type="text/javascript" src="../mfav-js/alertifyJS/alertify.min.js"></script>
 
 <dom-module id="mfav-collection">
 	<template>
@@ -19,17 +30,32 @@
       		.iron-flex {
 				/*width: 50%;*/
 			}
+			.contact_menu {
+		        z-index: 5;
+		        position: absolute;
+		        box-sizing: border-box;
+		        right: 16px;
+		        top: 10px;
+		        border-radius: 50%;
+		        cursor: pointer;
+		        background: var(--paper-cyan-500);
+		        /*color: var(--text-primary-color);*/
+		    }
 		</style>
 		<!--<div class="layout horizontal">-->
-		<template is="dom-repeat" items="{{collection}}" as="code">
-			<paper-card heading="{{code.name}}" elevation="3" animated-shadow="false" class="iron-flex">
+		<template is="dom-repeat" items="{{collection}}" as="contact" index-as="collection_id">
+			<paper-card heading="{{contact.name}}" elevation="3" animated-shadow="false" class="iron-flex">
+				<paper-menu-button class="contact_menu">
+				  <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+				  <paper-menu class="dropdown-content">
+				    <paper-item>Editar</paper-item>
+				    <paper-item id="{{collection_id}}" on-click="deleteContact">Eliminar</paper-item>
+				  </paper-menu>
+				</paper-menu-button>
 			  <div class="card-content">
-			  <paper-input label="Teléfono" value="{{code.telephone}}" disabled></paper-input>
-			  <paper-input label="Dirección" value="{{code.address}}" disabled></paper-input>
-			  <paper-input label="Correo" value="{{code.email}}" disabled></paper-input>
-			  	<!--<codesaver-code code="{{code.code}}" lang="{{code.lang}}">
-			  		
-			  	</codesaver-code>-->
+			  <paper-input label="Teléfono" value="{{contact.telephone}}" readonly></paper-input>
+			  <paper-input label="Dirección" value="{{contact.address}}" readonly></paper-input>
+			  <paper-input label="Correo" value="{{contact.email}}" readonly></paper-input>
 			  </div>
 			</paper-card>
 		</template>
@@ -39,7 +65,26 @@
 		Polymer({
 			is: "mfav-collection",
 			properties:{
-				collection: Array
+				collection: Array,
+				notify: true
+			},
+
+			deleteContact: function(e){
+				//alertify.alert("HEADER","Esto es un mensaje").set('label', 'Aceptar');
+				var that = this;
+				var id_contacto = parseInt(Polymer.dom(e).localTarget.id)
+				var confirm = alertify.confirm('Eliminar contacto','¿Está seguro que desea eliminar el contacto?',null,null).set('labels', {ok:'Confirmar', cancel:'Cancelar'})
+				confirm.set('onok', function(){
+					that.splice('collection', id_contacto, 1)
+			    	alertify.success('Contacto eliminado con éxito')
+				})
+				confirm.set('oncancel', function(){ 
+			    	alertify.error('Acción abortada')
+				})
+
+				function confirmDeleting(){
+
+				}
 			}
 		})
 	</script>

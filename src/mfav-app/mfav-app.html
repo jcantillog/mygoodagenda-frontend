@@ -58,6 +58,14 @@
       button{
         background: red;
       }
+
+      
+      @media (max-width:399px) {
+        paper-card{
+          width: 300px;
+          padding: 1em;
+        }
+      }
     </style>
 
     <mfav-header></mfav-header>
@@ -103,7 +111,7 @@
       },
 
       clicked: function(){
-        location.href="#";
+        //location.href="#";
       }
 
     });

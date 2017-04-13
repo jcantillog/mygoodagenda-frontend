@@ -70,13 +70,16 @@
       }
 
       .fab {
-        position: absolute;
+        z-index: 10;
+        position: fixed;
+        /*position: absolute;*/
         box-sizing: border-box;
         padding: 8px;
         width: 56px;
         height: 56px;
+        top: 90%;
         right: 16px;
-        top: -28px;
+        /*top: -28px;*/
         border-radius: 50%;
         text-align: center;
         cursor: pointer;
@@ -115,7 +118,7 @@
         margin-left: -9px;
         margin-right: -9px;
         background-color: var(--paper-cyan-800);
-        color: #fff;
+        color: var(--paper-black-900);
       }
     </style>
 
@@ -123,7 +126,7 @@
     
     <app-localstorage-document key="codesaver.collection.agenda" data="{{collection}}"> 
     </app-localstorage-document>
-    
+    <!--<paper-button raised onclick="vaciar()" style="background-color: white;">HOLA</paper-button>-->
     <div id="default-theme">
       <section class="mobile-app">
         <div class="toolbar">
@@ -131,17 +134,17 @@
         </div>
         <div class="item">
           <div class="fab" onclick="modal.open()">+</div>
-          <paper-tabs selected="0" autoselect autoselect-delay="1000">
+          <paper-tabs selected="0" autoselect autoselect-delay="1000" style="z-index: 2;">
             <paper-tab>CONTACTOS</paper-tab>
             <paper-tab>PERFIL</paper-tab>
             <paper-tab>CERRAR SESIÓN</paper-tab>
           </paper-tabs>
           <mfav-collection id="agenda" collection="{{collection}}"></mfav-collection>
           <!--<div class="primary">Primary text</div>-->
-          <paper-dialog id="modal" class="colored" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+          <paper-dialog id="modal" modal class="colored">
             <mfav-form id="agenda" collection="{{collection}}"></mfav-form>
             <div class="buttons">
-              <paper-button dialog-confirm autofocus>Cerrar</paper-button>
+              <paper-button dialog-confirm autofocus on-click="clearAll">Cerrar</paper-button>
             </div>
           </paper-dialog>
           <!--<div class="secondary">Secondary text</div>-->
@@ -149,6 +152,7 @@
         <!--<div class="disabled-item">
         </div>-->
       </section>
+      <br>
     </div>
   </template>
 
@@ -168,12 +172,25 @@
         "_collectionChanged(collection.*)"
       ],
 
+      listeners:{
+            //"hola": "_clearInput"
+      },
+
       _collectionChanged: function(){
         console.log("Desde el observer del host:");
         console.log(this.collection);
+      },
+
+      clearAll: function(){
+        document.getElementById("name").value = '';
+        document.getElementById("telephone").value = '';
+        document.getElementById("address").value = '';
+        document.getElementById("email").value = '';
       }
-
-
     });
+
+    function vaciar(){
+      localStorage.clear();
+    }
   </script>
 </dom-module>
